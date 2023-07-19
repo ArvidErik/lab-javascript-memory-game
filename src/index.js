@@ -1,3 +1,5 @@
+console.log("Hello World");
+
 const cards = [
   { name: 'aquaman', img: 'aquaman.jpg' },
   { name: 'batman', img: 'batman.jpg' },
@@ -41,11 +43,55 @@ window.addEventListener('load', (event) => {
   // Add all the divs to the HTML
   document.querySelector('#memory-board').innerHTML = html;
 
+  
   // Bind the click event of each element to a function
   document.querySelectorAll('.card').forEach((card) => {
-    card.addEventListener('click', () => {
+    card.addEventListener('click', () => {    
       // TODO: write some code here
-      console.log(`Card clicked: ${card}`);
-    });
-  });
-});
+      card.className += " turned"
+      memoryGame.pickedCards.push(card)
+
+    console.log(memoryGame.pickedCards.length);
+    console.log(memoryGame.pickedCards.slice(-1)[0].getAttribute("data-card-name"));
+    console.log(memoryGame.pickedCards.slice(-2,-1)[0]);
+
+    if ((memoryGame.pickedCards.length % 3 === 0) && (memoryGame.pickedCards.slice(-2, -1)[0].getAttribute("data-card-name")) === (memoryGame.pickedCards.slice(-3, -2)[0].getAttribute("data-card-name"))) {
+      let a = [];
+      document.querySelectorAll('.card.turned').forEach((card3) => {
+        a.push(card3)
+      })
+      
+        a[0].className = "blocked"
+        a[1].className = "blocked"
+    } else if (memoryGame.pickedCards.length % 3 === 0) {
+        document.querySelectorAll('.card.turned').forEach((card2) => {
+        card2.className = "card"})
+
+      } 
+    
+    
+    
+    })})
+})
+
+      
+
+
+      
+
+          if (memoryGame.checkIfPair(memoryGame.pickedCards.slice(-2,-1)[0],memoryGame.pickedCards.slice(-1)[0])){
+            document.querySelectorAll('.card.turned').forEach((element)=>{
+              element.className = "blocked";
+            })
+          }
+          
+
+
+console.log(`Card clicked: ${card}`);
+
+
+
+
+
+
+
