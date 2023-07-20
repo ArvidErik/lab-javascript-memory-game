@@ -48,48 +48,49 @@ window.addEventListener('load', (event) => {
   document.querySelectorAll('.card').forEach((card) => {
     card.addEventListener('click', () => {
 
-      memoryGame.pickedCards.push(card);
-      card.className += " turned";
+      card.className = 'card turned';
 
-      //creating variables
-      let firstCard = memoryGame.pickedCards[0].getAttribute("data-card-name")
-      let secondCard = memoryGame.pickedCards[1].getAttribute("data-card-name")
+      const cardName = card.getAttribute('data-card-name');
 
-      console.log(memoryGame.pickedCards.length);
+      memoryGame.pickedCards.push(cardName);
 
-      if (memoryGame.pickedCards.length == 2){  
-        document.querySelectorAll('.turned').forEach((element)=>{
-            setTimeout(() => {
-            element.className = "card"; 
-            }, 1000); 
-        });
-          if (memoryGame.checkIfPair(firstCard, secondCard)) {
-            document.querySelectorAll('.turned').forEach((e)=>{
-              setTimeout(() => {
-                e.className = "blocked"; 
-                }, 1000); 
-            });
+      const allTurnedCards = document.querySelectorAll('.turned');
+
+      const turnBackNoneBlockedCards = () => {
+        allTurnedCards.forEach((turnedCard)=>{
+          if (!turnedCard.classList.contains('blocked')){
+            turnedCard.classList.remove('turned')
           }
-
-        memoryGame.pickedCards = [];
-        if (memoryGame.checkIfFinished()) {
-          alert("You won!")
-        }
+        })
       };
+
+      const blockTurnedCards = () => {
+        allTurnedCards.forEach((turnedCard)=>{
+          turnedCard.classList.add('blocked')
+        })
+      };
+
+      if (memoryGame.pickedCards.length === 2) {
+        if (memoryGame.checkIfPair(memoryGame.pickedCards[0], memoryGame.pickedCards[1])) {
+          blockTurnedCards();
+        } else {
+          setTimeout(turnBackNoneBlockedCards, 500);
+        }
+        memoryGame.pickedCards = [];
+      }
+    
+      console.log(memoryGame);
+      
       
       document.querySelector("#pairs-clicked").innerHTML = memoryGame.pairsClicked
       document.querySelector("#pairs-guessed").innerHTML = memoryGame.pairsGuessed
       
+      if (memoryGame.checkIfFinished()) {
+        alert("You won!")}
+        
 
     });
+
   });
-});
 
-      
-
-
-
-
-
-
-
+});    
